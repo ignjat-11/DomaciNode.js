@@ -1,0 +1,56 @@
+[
+  {
+    "id": 1,
+    "name": "Fuel change",
+    "price": 69.99,
+    "status": "available"
+  },
+  {
+    "id": 2,
+    "name": "Oil change",
+    "price": 49.99,
+    "status": "available"
+  },
+  {
+    "id": 3,
+    "name": "Tire rotation",
+    "price": 39.99,
+    "status": "not-available"
+  },
+  {
+    "id": 4,
+    "name": "Brake inspection",
+    "price": 29.99,
+    "status": "available"
+  },
+  {
+    "id": 5,
+    "name": "Battery replacement",
+    "price": 89.99,
+    "status": "not-available"
+  },
+  {
+    "id": 6,
+    "name": "Air filter replacement",
+    "price": 24.99,
+    "status": "available"
+  },
+  {
+    "id": 7,
+    "name": "Wheel alignment",
+    "price": 59.99,
+    "status": "available"
+  },
+  {
+    "id": 8,
+    "name": "Coolant flush",
+    "price": 69.99,
+    "status": "not-available"
+  },
+  {
+    "id": 9,
+    "name": "Transmission check",
+    "price": 99.99,
+    "status": "available"
+  }
+]
