@@ -2,7 +2,6 @@ const http = require('http');
 const {handleStaticFiles} = require('./src/handlers/staticHandler');
 const {handleApiCall} = require('./src/handlers/apiHandler');
 const {handlePage, handleAboutPage} = require('./src/handlers/pageHandler');
-const { products } = require('./src/data/products');
 
 require('./src/listeners/pageListener');
 
@@ -27,20 +26,20 @@ const server = http.createServer((req, res) =>
         handleAboutPage(req,res);
         return;
     }
-    const productMatch = req.url.match(/^\/product\/([\w-]+)$/);
-    if(productMatch){
-
-        const slug = productMatch[1];
-        const product = products.find((product) => product.slug === slug);
-
-        if(product)
-        {
-            res.writeHead(200, {'Content-Type': 'text/plain'});
-            return res.end('Product founded!');
-
-        }
-
-    }
+    // const productMatch = req.url.match(/^\/product\/([\w-]+)$/);
+    // if(productMatch){
+    //
+    //     const slug = productMatch[1];
+    //     const product = products.find((product) => product.slug === slug);
+    //
+    //     if(product)
+    //     {
+    //         res.writeHead(200, {'Content-Type': 'text/plain'});
+    //         return res.end('Product founded!');
+    //
+    //     }
+    //
+    // }
 
     res.writeHead(404, {"Content-Type": "text/plain"});
     return res.end('Not Found');

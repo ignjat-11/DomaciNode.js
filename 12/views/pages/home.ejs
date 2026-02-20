@@ -1,0 +1,15 @@
+
+<% if(user) {%>
+ <p>Dobrodosao nazad</p>
+<% } %>
+
+<div class="products-container">
+    <% products.forEach(p => { %>
+        <div class="product-card">
+            <h4 class="product-name"><%- p.name %></h4>
+            <p class="product-price">$<%- p.price %></p>
+            <p class="product-amount">Na stanju: <%- p.amount %></p>
+            <a href="/product/<%- p.slug %>">Visit product</a>
+        </div>
+    <% }); %>
+</div>

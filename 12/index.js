@@ -1,16 +1,18 @@
 const http = require('http');
 const {handleStaticFiles} = require('./src/handlers/staticHandler');
 const {handleApiCall} = require('./src/handlers/apiHandler');
-const {handlePage, handleAboutPage} = require('./src/handlers/pageHandler');
-const { pool } = require('./src/services/mysql');
-const { getAllUsers } = require('./src/services/userService');
-const { fetchSingleProduct } = require('./src/services/productService');
+const {handlePage} = require('./src/handlers/pageHandler');
+const { fetchSingleProduct, getAllProducts } = require('./src/services/productService');
+const { getSession } = require('./src/services/sessionService');
 
 require('./src/listeners/pageListener');
 
 
 const server = http.createServer(async (req, res) =>
 {
+
+    const userSession = getSession(req);
+
 
     if(req.url.startsWith('/public/')){
         handleStaticFiles(req,res);
@@ -23,14 +25,23 @@ const server = http.createServer(async (req, res) =>
     }
     if(req.url === '/') {
 
-        const data = await getAllUsers();
-        console.log(data);
-        handlePage(req, res);
+        const products = await getAllProducts();
+       /* console.log(data);*/
+        handlePage('home',{user: userSession, products: products}, req, res);
         return;
     }
     else if(req.url ==='/about')
     {
-        handleAboutPage(req,res);
+        handlePage('about',{}, req,res);
+        return;
+    }
+    else if(req.url === '/register')
+    {
+        handlePage('register',{}, req,res);
+        return;
+    }else if(req.url === '/login')
+    {
+        handlePage('login',{}, req,res);
         return;
     }
     const productMatch = req.url.match(/^\/product\/([\w-]+)$/);
@@ -41,9 +52,9 @@ const server = http.createServer(async (req, res) =>
 
         if(product)
         {
-            res.writeHead(200, {'Content-Type': 'text/plain'});
-            return res.end('Product founded!');
 
+            handlePage('permalink',{product: product}, req, res);
+            return;
         }
 
     }

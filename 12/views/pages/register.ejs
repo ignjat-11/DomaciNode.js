@@ -1,0 +1,33 @@
+<form action="/api/register" method="POST" class="register-form">
+
+    <h2>Register</h2>
+    <div>
+        <label>Name:</label>
+        <input type="text" name="name" required />
+    </div>
+
+    <div>
+        <label>Email:</label>
+        <input type="email" name="email" required />
+    </div>
+
+    <div>
+        <label>Password:</label>
+        <input type="password" name="password" required />
+    </div>
+
+    <div>
+        <label>Confirm password:</label>
+        <input type="password" name="confirmPassword" required />
+    </div>
+
+    <div>
+        <label>
+            <input type="checkbox" name="rules" required />
+            I agree with site rules
+        </label>
+    </div>
+
+    <button type="submit">Register</button>
+
+</form>
