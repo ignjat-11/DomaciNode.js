@@ -1,3 +1,4 @@
+
 <nav class="navbar">
     <div class="logo">MySite</div>
     <ul class="nav-links">
@@ -5,5 +6,11 @@
         <li><a href="#">O nama</a></li>
         <li><a href="#">Usluge</a></li>
         <li><a href="#">Kontakt</a></li>
+        <% if(user) { %>
+            <li><a href="/cart">Cart</a></li>
+            <li><a href="api/logout">Logout</a></li>
+        <% } else { %>
+            <li><a href="/login">Login</a></li>
+        <% } %>
     </ul>
 </nav>
