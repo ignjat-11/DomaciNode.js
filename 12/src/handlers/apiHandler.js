@@ -2,7 +2,10 @@ const { createUser, userExists,getUserByEmail } = require('../services/userServi
 const queryString = require("node:querystring");
 const {pool} = require("../services/mysql");
 const bcrypt = require("bcrypt");
-const { createSession,deleteSession, getSession, addToCart} = require("../services/sessionService");
+const { createSession,deleteSession,saveSessions,sessions, getSession, addToCart} = require("../services/sessionService");
+const {getAllProducts, getProductsById } = require("../services/productService");
+const { successResponse } = require('../helpers/apiResponseHelper');
+const { createOrder } = require('../services/orderService');
 
 async function handleApiCall(req,res)
 {
@@ -15,7 +18,7 @@ async function handleApiCall(req,res)
             body += chunk;
         });
         req.on('end', async () => {
-            const formData = queryString.parse(body);
+            const formData = JSON.parse(body);
             const errors = [];
             if(!formData.name || formData.name.length < 3)
             {
@@ -57,8 +60,7 @@ async function handleApiCall(req,res)
             const userId = await createUser(formData.name, formData.email, password);
             const sessionId = createSession(userId);
             res.setHeader("Set-Cookie",`sid=${sessionId}; HttpOnly; Path=/`);
-            res.writeHead(303, {"Location" : "/"});
-            return res.end();
+            successResponse(res);
         });
 
         return;
@@ -70,7 +72,7 @@ async function handleApiCall(req,res)
             body += chunk;
         });
         req.on('end', async () => {
-            const formData = queryString.parse(body);
+            const formData = JSON.parse(body);
             const errors = [];
 
             if(!formData.password || formData.password.length < 3) {
@@ -103,8 +105,7 @@ async function handleApiCall(req,res)
 
             const sessionId = createSession(user.id);
             res.setHeader("Set-Cookie",`sid=${sessionId}; HttpOnly; Path=/`);
-            res.writeHead(303, {"Location" : "/"});
-            return res.end();
+            successResponse(res);
         });
         return;
     }
@@ -125,15 +126,53 @@ async function handleApiCall(req,res)
             body += chunk.toString();
         })
         req.on('end', async () => {
-            const formData = queryString.parse(body);
+            const formData = JSON.parse(body);
             const user = getSession(req);
-            addToCart(user.userId,formData.productId);
+            addToCart(user.userId,Number(formData.productId));
 
-            const backUrl = req.headers.referer || '/';
-            res.writeHead(303, {'Location' : backUrl});
-            return res.end();
+            successResponse(res);
         });
         return;
+    }
+    if(urlMatch[1] === 'cart' && req.method === 'GET'){
+
+        const user = getSession(req);
+
+        const productIds = user?.shoppingCart || [];
+
+        const products = await getProductsById(productIds);
+
+        res.writeHead(200, {"Content-Type": "application/json"});
+        return res.end(JSON.stringify(products));
+
+    }
+    if(urlMatch[1] === 'checkout' && req.method === 'POST'){
+        const user = getSession(req);
+
+        if(!user){
+            res.writeHead(401);
+            return res.end(JSON.stringify({error:"Not logged in"}));
+        }
+
+        const productIds = user.shoppingCart || [];
+        if(productIds.length === 0){
+            res.writeHead(400);
+            return res.end(JSON.stringify({error:"Cart empty"}));
+        }
+
+        const orderId = await createOrder(user.userId, productIds); // Prosledjujemo ceo user
+
+        // Očistimo cart
+        user.shoppingCart = [];
+        saveSessions(sessions);
+
+        res.writeHead(200, {"Content-Type":"application/json"});
+        res.end(JSON.stringify({success:true, orderId}));
+    }
+    if(urlMatch[1] === 'products' && req.method === 'GET'){
+        const products = await getAllProducts();
+        res.writeHead(200, {"Content-Type": "application/json"});
+        return res.end(JSON.stringify({products: products}));
     }
 
     const response = {success: true};

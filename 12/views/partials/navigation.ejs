@@ -2,15 +2,37 @@
 <nav class="navbar">
     <div class="logo">MySite</div>
     <ul class="nav-links">
-        <li><a href="#">Početna</a></li>
-        <li><a href="#">O nama</a></li>
-        <li><a href="#">Usluge</a></li>
-        <li><a href="#">Kontakt</a></li>
+        <li><a href="/">Pocetna</a></li>
+        <li><a href="/about">O nama</a></li>
+        <li><a href="/services">Usluge</a></li>
+        <li><a href="/contact">Kontakt</a></li>
         <% if(user) { %>
             <li><a href="/cart">Cart</a></li>
-            <li><a href="api/logout">Logout</a></li>
+            <li><span id="logoutNav" style="color:white; cursor:pointer"; data-link="api/logout">Logout</span></li>
         <% } else { %>
             <li><a href="/login">Login</a></li>
         <% } %>
     </ul>
 </nav>
+<script>
+    const logoutNav = document.getElementById('logoutNav');
+    logoutNav.addEventListener('click', async(e) => {
+
+        const url = logoutNav.dataset.link;
+        e.preventDefault();
+
+        const res = await fetch(url, {
+            method: 'GET',
+            credentials: 'include'
+        });
+
+        if(!res.ok) {
+            throw new Error('Failed to logout');
+        }
+
+        const data = await res.json();
+        if(data.success) {
+            window.location.reload();
+        }
+    });
+</script>

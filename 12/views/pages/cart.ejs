@@ -1,3 +1,45 @@
-<% products.forEach(product => { %>
-    <p><%- product.name %></p>
-<% }) %>
+<header>
+    <link rel="stylesheet" href="../../public/css/cart.css">
+</header>
+<div id="cartProducts">
+
+</div>
+<button id="checkoutBtn">Finish order</button>
+<script>
+    async function loadCartProducts() {
+        const res = await fetch("/api/cart");
+        const products = await res.json();
+        const container = document.getElementById("cartProducts");
+
+        products.forEach((product) => {
+            const card = document.createElement("div");
+            card.classList.add("cart-item");
+
+            const p = document.createElement("p");
+            p.textContent = product.name;
+
+            const price = document.createElement("p");
+            price.textContent ="$" + product.price;
+            price.classList.add("price");
+
+            card.append(p,price);
+            container.appendChild(card);
+        });
+        document.getElementById("checkoutBtn").addEventListener("click", async () => {
+
+            const res = await fetch("/api/checkout", {
+                method: "POST"
+            });
+
+            const data = await res.json();
+
+            if(data.success){
+                alert("Order successful!");
+                window.location.reload();
+            }
+
+        });
+    }
+
+    loadCartProducts();
+</script>

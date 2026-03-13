@@ -69,4 +69,4 @@ function addToCart(userId, productId){
     return true;
 }
 
-module.exports = { sessions, createSession, getSession, deleteSession, addToCart };
+module.exports = { sessions, createSession, getSession, deleteSession, addToCart, saveSessions };

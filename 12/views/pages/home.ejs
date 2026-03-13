@@ -3,13 +3,29 @@
  <p>Dobrodosao nazad</p>
 <% } %>
 
-<div class="products-container">
-    <% products.forEach(p => { %>
-        <div class="product-card">
-            <h4 class="product-name"><%- p.name %></h4>
-            <p class="product-price">$<%- p.price %></p>
-            <p class="product-amount">Na stanju: <%- p.amount %></p>
-            <a href="/product/<%- p.slug %>">Visit product</a>
-        </div>
-    <% }); %>
-</div>
+<div id="products-container" class="products-container"></div>
+<script>
+
+    async function fetchProducts() {
+
+        const res = await fetch("/api/products");
+        if(!res.ok) throw new Error("Bad response");
+        const products = await res.json();
+        const container = document.getElementById("products-container");
+        container.innerHTML = "";
+        products.products.forEach(product => {
+            const card = document.createElement("div");
+            card.classList.add("product-card");
+
+            card.innerHTML = `
+            <h4 class="product-name">${product.name}</h4>
+            <p class="product-price">$${product.price}</p>
+            <p class="product-amount">Na stanju: ${product.amount}</p>
+            <a href="/product/${product.slug}">Visit product</a>
+        `;
+
+            container.appendChild(card);
+        });
+    }
+    fetchProducts();
+</script>

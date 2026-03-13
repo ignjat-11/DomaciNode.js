@@ -1,0 +1,47 @@
+#cartProducts {
+    max-width: 700px;
+    margin: 40px auto;
+    padding: 20px;
+}
+
+.cart-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #ffffff;
+    padding: 16px 20px;
+    border-radius: 10px;
+    border: 1px solid #e6e6e6;
+    margin-bottom: 12px;
+    transition: 0.2s;
+}
+
+.cart-item:hover {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+.cart-item p {
+    margin: 0;
+    font-size: 16px;
+}
+
+.price {
+    font-weight: 600;
+    color: #2a7cff;
+}
+#checkoutBtn {
+    display: inline-block;
+    background-color: #28a745;
+    color: white;
+    font-weight: bold;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    margin-top: 20px;
+}
+
+#checkoutBtn:hover {
+    background-color: #218838;
+}

@@ -13,6 +13,10 @@ async function fetchSingleProduct(slug)
 }
 
 async function getProductsById(productIds){
+    if(!productIds || productIds.length === 0){
+        return [];
+    }
+
     const placeholders = productIds.map(() => '?').join(',');
     const [rows] = await pool.query(`SELECT * FROM products WHERE id IN (${placeholders})`, productIds);
     return rows;

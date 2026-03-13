@@ -1,0 +1,64 @@
+body{
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: #f4f6f9;
+    margin: 0;
+}
+
+/* container za login */
+.login-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 80vh;
+}
+
+/* login kartica */
+.login-form{
+    background: white;
+    padding: 30px 40px;
+    border-radius: 10px;
+    width: 320px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+}
+
+.login-form h2{
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+.login-form div{
+    margin-bottom: 15px;
+}
+
+.login-form label{
+    display: block;
+    font-size: 14px;
+    margin-bottom: 5px;
+}
+
+.login-form input{
+    width: 100%;
+    padding: 10px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+}
+
+.login-form input:focus{
+    outline: none;
+    border-color: #4CAF50;
+}
+
+.login-form button{
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 6px;
+    background: #4CAF50;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.login-form button:hover{
+    background: #45a049;
+}

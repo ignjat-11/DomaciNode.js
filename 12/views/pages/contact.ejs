@@ -1,0 +1,55 @@
+<header>
+    <link rel="stylesheet" href="../../public/css/contact.css">
+</header>
+
+<section class="contact-container">
+
+    <h1>Contact Us</h1>
+    <p class="contact-intro">
+        If you have any questions, feel free to contact us.
+    </p>
+
+    <div class="contact-grid">
+
+        <div class="contact-info">
+            <h3>Contact Information</h3>
+
+            <p><strong>Email:</strong> support@mystore.com</p>
+            <p><strong>Phone:</strong> +381 60 123 4567</p>
+            <p><strong>Address:</strong> Beograd, Serbia</p>
+
+        </div>
+
+        <form class="contact-form" id="contactForm">
+
+            <div>
+                <label>Name</label>
+                <input type="text" name="name" required>
+            </div>
+
+            <div>
+                <label>Email</label>
+                <input type="email" name="email" required>
+            </div>
+
+            <div>
+                <label>Message</label>
+                <textarea name="message" rows="5" required></textarea>
+            </div>
+
+            <button type="submit">Send Message</button>
+
+        </form>
+
+    </div>
+
+</section>
+
+<script>
+    const form = document.getElementById("contactForm");
+
+    form.addEventListener("submit", (e) => {
+        e.preventDefault();
+        alert("Message sent! (demo)");
+    });
+</script>

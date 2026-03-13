@@ -12,9 +12,6 @@ const {getSession} = require("./src/services/sessionService");
 const server = http.createServer(async (req, res) =>
 {
 
-
-
-
     if(req.url.startsWith('/public/')){
         handleStaticFiles(req,res);
         return;
@@ -26,9 +23,7 @@ const server = http.createServer(async (req, res) =>
     }
     if(req.url === '/') {
 
-        const products = await getAllProducts();
-       /* console.log(data);*/
-        handlePage('home',{products: products}, req, res);
+        handlePage('home',{}, req, res);
         return;
     }
     else if(req.url ==='/about')
@@ -45,10 +40,21 @@ const server = http.createServer(async (req, res) =>
         handlePage('login',{}, req,res);
         return;
     }
+    else if(req.url === '/services')
+    {
+        handlePage('services',{}, req,res);
+        return;
+    }
+    else if(req.url === '/contact')
+    {
+        handlePage('contact',{}, req,res);
+        return;
+    }
     else if(req.url === '/cart'){
 
         const user = getSession(req);
-        const products = await getProductsById(user.shoppingCart);
+        const productIds = user?.shoppingCart || [];
+        const products = await getProductsById(productIds);
         console.log(products);
         handlePage('cart',{products: products}, req,res);
         return;

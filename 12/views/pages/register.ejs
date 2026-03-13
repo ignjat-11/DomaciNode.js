@@ -1,4 +1,9 @@
-<form action="/api/register" method="POST" class="register-form">
+<header>
+    <link rel="stylesheet" href="../../public/css/register.css">
+
+</header>
+<div class="register-container">
+<form id="registerForm" action="/api/register" method="POST" class="register-form">
 
     <h2>Register</h2>
     <div>
@@ -31,3 +36,40 @@
     <button type="submit">Register</button>
 
 </form>
+</div>
+<script>
+    const registerForm = document.getElementById('registerForm');
+
+    registerForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        const name = registerForm.name.value;
+        const email = registerForm.email.value;
+        const password = registerForm.password.value;
+        const confirmPassword = registerForm.confirmPassword.value;
+        const rules = registerForm.rules.checked;
+
+        const res = await fetch('/api/register', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                name,
+                email,
+                password,
+                confirmPassword,
+                rules
+            }),
+            credentials: 'include'
+        });
+
+        if(!res.ok) throw new Error("Register failed");
+
+        const data = await res.json();
+        console.log(data);
+
+        if(data.success){
+            alert("Registration successful!");
+            window.location.reload();
+        }
+    });
+</script>
